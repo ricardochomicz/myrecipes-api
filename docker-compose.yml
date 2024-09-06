@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: myrecipes
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/myrecipes
+      PORT: 5000
+    depends_on:
+      - mongo
+    networks:
+      - myrecipes-network
+
+  mongo:
+    image: mongo:latest
+    container_name: myrecipes-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - myrecipes-network
+
+volumes:
+  mongo-data:
+
+
+networks:
+  myrecipes-network:
+    driver: bridge
